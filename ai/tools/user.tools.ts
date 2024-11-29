@@ -3,7 +3,12 @@ import { getDisplayName } from "next/dist/shared/lib/utils";
 import { z } from "zod";
 
 const getUsers = tool({
-  description: `When asked for users, this tool will return the users from RÖszTI.`,
+  description: `This tool retrieves user data from RÖszTI and displays it in a clear, structured format. Return the list in the following format:
+  ## user.Name
+  - Email: user.email
+  - Username: user.userName
+  - Active: user.isActive ? "Yes" : "No"
+  `,
   parameters: z.object({}),
   execute: async function ({}) {
     const response = await fetch(`${process.env.ROSZTI_API_URL}/users`, {
@@ -18,7 +23,9 @@ const getUsers = tool({
     }
 
     if (!response.ok) {
-      return { error: "Something went wrong while fetching users." };
+      return {
+        error: `Something went wrong while fetching users.`,
+      };
     }
 
     const data = await response.json();
@@ -27,7 +34,12 @@ const getUsers = tool({
 });
 
 const createUser = tool({
-  description: "Create a new user in RÖszTI.",
+  description: `Create a new user in RÖszTI. Return the data in the following format:
+    ## user.Name
+    - Email: user.email
+    - Username: user.userName
+    - Active: user.isActive ? "Yes" : "No"
+    `,
   parameters: z.object({
     userName: z.string(),
     displayName: z.string(),
