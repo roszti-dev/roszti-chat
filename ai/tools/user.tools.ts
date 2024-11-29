@@ -1,13 +1,13 @@
 import { tool } from "ai";
-import { getDisplayName } from "next/dist/shared/lib/utils";
 import { z } from "zod";
 
 const getUsers = tool({
   description: `This tool retrieves user data from RÖszTI and displays it in a clear, structured format. Return the list in the following format:
-  ## user.Name
+  ### user.Name
   - Email: user.email
   - Username: user.userName
   - Active: user.isActive ? "Yes" : "No"
+  And a <a> to the tool with the following url: https://dev.roszti.com/dashboard/users/(user.id) and title: "View user in RÖszTI"
   `,
   parameters: z.object({}),
   execute: async function ({}) {
