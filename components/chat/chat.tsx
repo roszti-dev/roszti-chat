@@ -9,6 +9,7 @@ import remarkBreaks from "remark-breaks";
 import remarkHtml from "remark-html";
 import { toast } from "sonner";
 import ChatInput from "../chat-input/chat-input";
+import { SidebarTrigger } from "../ui/sidebar";
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit, error } = useChat({
@@ -29,8 +30,11 @@ export default function Chat() {
   }, [error]);
 
   return (
-    <div className="w-full flex flex-col h-dvh">
+    <div className="w-full flex flex-col h-dvh relative">
+      <SidebarTrigger />
+
       <div className="gap-y-3 w-full flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4">
+        {JSON.stringify(error)}
         {messages
           .filter((message) => message.role !== "system")
           .map((message) => (
@@ -71,10 +75,10 @@ export default function Chat() {
         <div ref={messagesEndRef} className="h-0 w-0"></div>
       </div>
 
-      <div className="pb-8 pt-2 inset-x-0 bottom-0 flex justify-center items-center bg-background">
+      <div className="pb-6 pt-2 inset-x-0 bottom-0 flex justify-center items-center bg-background">
         <form
           onSubmit={handleSubmit}
-          className="relative w-full max-w-[1280px] gap-x-3 flex items-center justify-center"
+          className="relative w-full gap-x-3 flex items-center justify-center"
         >
           <ChatInput input={input} handleInputChange={handleInputChange} />
         </form>
